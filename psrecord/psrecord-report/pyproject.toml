@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "psrecord-report"
+version = "1.0.0"
+description = "HTML report generator for psrecord sessions"
+requires-python = ">=3.8"
+
+[project.scripts]
+psrecord-report = "psrecord_report.report:main"

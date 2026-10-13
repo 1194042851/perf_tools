@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "psrecord"
+version = "1.5.0"
+authors = [
+    { name = "Thomas Robitaille", email = "thomas.robitaille@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: BSD License",
+]
+requires-python = ">=3.10"
+description = "Python package to record activity from processes"
+readme = "README.md"
+dependencies = [
+    "psutil>=5.6",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+]
+plot = [
+    "matplotlib",
+]
+
+[project.scripts]
+psrecord = "psrecord.main:main"
+
+[project.license]
+text = "Simplified BSD License"
+
+[project.urls]
+Homepage = "https://github.com/astrofrog/psrecord"
+
+[tool.setuptools]
+zip-safe = true
+provides = [
+    "psrecord",
+]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+namespaces = false
+
+[tool.ruff]
+lint.select = ["F", "E", "W", "I", "UP"]
+line-length = 100
+
+[tool.black]
+line-length = 100

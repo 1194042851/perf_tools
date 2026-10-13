@@ -1,0 +1,15 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Test data & sessions (do not track)
+/session_*
+/analysis_*
+/*.html
+/*.png
+/*.csv
+
+# Untracked / experimental suites
+/perf_suite/
