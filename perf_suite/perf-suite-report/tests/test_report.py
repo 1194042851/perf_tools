@@ -7,7 +7,6 @@ import tempfile
 import json
 import csv
 from perf_suite_report.analyzer import calculate_stats, SessionData
-from perf_suite_report.plot_builder import build_process_figures, build_network_figures, build_system_figures
 from perf_suite_report.templates.report_html import render_html_report
 from perf_suite_report.comparator import build_comparison_report
 
@@ -54,14 +53,15 @@ class TestReportUnit(unittest.TestCase):
         try:
             s_dir = self._create_mock_session(tmp_dir)
             data = SessionData(s_dir)
-            stats = data.get_summary_stats()
-            figures = []
-            figures.extend(build_process_figures(data))
-            figures.extend(build_network_figures(data))
-            figures.extend(build_system_figures(data))
-            html = render_html_report(data.meta, stats, figures)
-            self.assertIn("perf_suite 性能测试报告", html)
+            out_html = os.path.join(tmp_dir, "report.html")
+            render_html_report(data, out_html)
+            self.assertTrue(os.path.exists(out_html))
+            with open(out_html, "r", encoding="utf-8") as f:
+                html = f.read()
+            self.assertIn("perf_suite 性能全景分析报告", html)
             self.assertIn("test_app", html)
+            self.assertIn("ChartZoom", html)
+            self.assertIn("data-theme", html)
         finally:
             shutil.rmtree(tmp_dir, ignore_errors=True)
 
@@ -78,6 +78,8 @@ class TestReportUnit(unittest.TestCase):
             self.assertIn("perf_suite 跨会话 (A/B) 综合对比评测报告", content)
             self.assertIn("session_v1", content)
             self.assertIn("session_v2", content)
+            self.assertIn("ChartZoom", content)
+            self.assertIn("data-theme", content)
         finally:
             shutil.rmtree(tmp_dir, ignore_errors=True)
 

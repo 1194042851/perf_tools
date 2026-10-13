@@ -53,14 +53,7 @@ def main():
         output_html = args.output or os.path.join(s_dir, "report.html")
         print(f"[INFO] 正在分析单会话性能数据: {s_dir}")
         data = SessionData(s_dir)
-        stats = data.get_summary_stats()
-        figures = []
-        figures.extend(build_process_figures(data))
-        figures.extend(build_network_figures(data))
-        figures.extend(build_system_figures(data))
-        html_content = render_html_report(data.meta, stats, figures)
-        with open(output_html, "w", encoding="utf-8") as f:
-            f.write(html_content)
+        render_html_report(data, output_html)
         print(f"[INFO] 单会话性能测试报告生成成功: {output_html}")
     else:
         output_html = args.output or "comparison_report.html"

@@ -50,7 +50,7 @@ build_deb perf-suite 0.1.0-1 perf-suite/perf_suite perf-suite perf_suite.cli \
 
 # 2. 可视化报告 (PC端使用)
 build_deb perf-suite-report 0.1.0-1 perf-suite-report/perf_suite_report perf-suite-report perf_suite_report.cli \
-    "python3 (>= 3.8)" "python3-plotly" \
-    "perf-suite 会话可视化与对比报告生成工具(PC端): 单会话全景交互式报告与A/B多会话横向对比"
+    "python3 (>= 3.8)" "" \
+    "perf-suite 会话可视化与对比报告生成工具(PC端): 单会话全景交互式报告/全图联动/双主题/A/B跨会话对比"
 
 ls -la $OUT/*.deb
