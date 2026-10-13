@@ -62,6 +62,11 @@ class TestReportUnit(unittest.TestCase):
             self.assertIn("test_app", html)
             self.assertIn("ChartZoom", html)
             self.assertIn("data-theme", html)
+            self.assertIn('"pointRadius": 0', html)
+            self.assertIn('"pointHoverRadius": 6', html)
+            # 确认自定义数据集不含虚线配置 (Chart.js 内部代码除外)
+            data_payload = html.split("const reportData = ")[1].split(";\n        const chartInstances")[0]
+            self.assertNotIn("borderDash", data_payload)
         finally:
             shutil.rmtree(tmp_dir, ignore_errors=True)
 
@@ -80,6 +85,10 @@ class TestReportUnit(unittest.TestCase):
             self.assertIn("session_v2", content)
             self.assertIn("ChartZoom", content)
             self.assertIn("data-theme", content)
+            self.assertIn('"pointRadius": 0', content)
+            self.assertIn('"pointHoverRadius": 6', content)
+            cmp_payload = content.split("const reportData = ")[1].split(";\n        const chartInstances")[0]
+            self.assertNotIn("borderDash", cmp_payload)
         finally:
             shutil.rmtree(tmp_dir, ignore_errors=True)
 

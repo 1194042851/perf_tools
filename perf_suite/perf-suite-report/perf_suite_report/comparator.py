@@ -51,14 +51,15 @@ def build_comparison_report(session_dirs: List[str], output_html: str):
                 rx_mbps = [r.get("rx_mbps", 0.0) for r in rows]
                 rx_pps = [r.get("rx_pps", 0.0) for r in rows]
                 color = palette[idx % len(palette)]
-                line_dash = [] if idx == 0 else ([4, 4] if idx == 1 else [2, 2])
 
                 chart_cmp_rx_bw.append({
                     "label": f"[{s_name}] {iface} RX (Mbps)",
                     "data": downsample_points(times, rx_mbps),
                     "borderColor": color,
                     "borderWidth": 2,
-                    "borderDash": line_dash,
+                    "pointRadius": 0,
+                    "pointHoverRadius": 6,
+                    "pointHitRadius": 8,
                     "tension": 0.2
                 })
 
@@ -67,7 +68,9 @@ def build_comparison_report(session_dirs: List[str], output_html: str):
                     "data": downsample_points(times, rx_pps),
                     "borderColor": color,
                     "borderWidth": 2,
-                    "borderDash": line_dash,
+                    "pointRadius": 0,
+                    "pointHoverRadius": 6,
+                    "pointHitRadius": 8,
                     "tension": 0.1
                 })
 
@@ -86,14 +89,15 @@ def build_comparison_report(session_dirs: List[str], output_html: str):
             cpus = [r.get("cpu_percent", 0.0) for r in rows]
             rsss = [r.get("rss_mb", 0.0) for r in rows]
             color = palette[(s_idx * 3 + p_idx) % len(palette)]
-            line_dash = [] if s_idx == 0 else ([4, 4] if s_idx == 1 else [2, 2])
 
             chart_cmp_proc_cpu.append({
                 "label": f"[{s_name}] {p_name} CPU (%)",
                 "data": downsample_points(times, cpus),
                 "borderColor": color,
                 "borderWidth": 2,
-                "borderDash": line_dash,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
 
@@ -102,7 +106,9 @@ def build_comparison_report(session_dirs: List[str], output_html: str):
                 "data": downsample_points(times, rsss),
                 "borderColor": color,
                 "borderWidth": 2,
-                "borderDash": line_dash,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
 
@@ -114,14 +120,15 @@ def build_comparison_report(session_dirs: List[str], output_html: str):
             times = [r.get("elapsed_s", 0.0) for r in rows]
             sys_cpu = [r.get("sys_cpu_percent", 0.0) for r in rows]
             color = palette[idx % len(palette)]
-            line_dash = [] if idx == 0 else ([4, 4] if idx == 1 else [2, 2])
 
             chart_cmp_sys_cpu.append({
                 "label": f"[{s_name}] 整机 CPU (%)",
                 "data": downsample_points(times, sys_cpu),
                 "borderColor": color,
                 "borderWidth": 2,
-                "borderDash": line_dash,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
 
@@ -411,7 +418,17 @@ def build_comparison_report(session_dirs: List[str], output_html: str):
                     responsive: true,
                     maintainAspectRatio: false,
                     animation: false,
-                    interaction: {{ mode: 'index', intersect: false }},
+                    interaction: {{ mode: 'nearest', axis: 'x', intersect: false }},
+                    elements: {{
+                        point: {{
+                            radius: 0,
+                            hoverRadius: 6,
+                            hitRadius: 10
+                        }},
+                        line: {{
+                            tension: 0.2
+                        }}
+                    }},
                     scales: {{
                         x: {{
                             type: 'linear',

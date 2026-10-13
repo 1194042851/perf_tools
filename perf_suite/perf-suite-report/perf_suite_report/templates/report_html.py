@@ -93,6 +93,9 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(times, cpus),
             "borderColor": color,
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.2
         })
 
@@ -101,6 +104,9 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(times, rsss),
             "borderColor": color,
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.2
         })
         if any(psss):
@@ -108,8 +114,10 @@ def render_html_report(session: SessionData, output_html: str):
                 "label": f"{name} PSS (实际按比例)",
                 "data": downsample_points(times, psss),
                 "borderColor": color,
-                "borderWidth": 1.5,
-                "borderDash": [4, 4],
+                "borderWidth": 2,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
 
@@ -118,6 +126,9 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(times, thrs),
             "borderColor": color,
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.1
         })
 
@@ -126,15 +137,20 @@ def render_html_report(session: SessionData, output_html: str):
                 "label": f"{name} 读 (KB/s)",
                 "data": downsample_points(times, r_kbs),
                 "borderColor": color,
-                "borderWidth": 1.8,
+                "borderWidth": 2,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
             chart_data_proc_io.append({
                 "label": f"{name} 写 (KB/s)",
                 "data": downsample_points(times, w_kbs),
-                "borderColor": color,
-                "borderWidth": 1.8,
-                "borderDash": [3, 3],
+                "borderColor": palette[(idx + 1) % len(palette)],
+                "borderWidth": 2,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
 
@@ -193,14 +209,19 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(times, rx_mbps),
             "borderColor": color_rx,
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.2
         })
         chart_data_net_bw.append({
             "label": f"{iface} TX (发送 Mbps)",
             "data": downsample_points(times, tx_mbps),
             "borderColor": color_tx,
-            "borderWidth": 1.8,
-            "borderDash": [4, 4],
+            "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.2
         })
 
@@ -209,14 +230,19 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(times, rx_pps),
             "borderColor": color_rx,
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.1
         })
         chart_data_net_pps.append({
             "label": f"{iface} TX 包率 (PPS)",
             "data": downsample_points(times, tx_pps),
             "borderColor": color_tx,
-            "borderWidth": 1.8,
-            "borderDash": [4, 4],
+            "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.1
         })
 
@@ -237,6 +263,9 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(s_times, sys_cpu),
             "borderColor": "#FF5376",
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.2
         })
         chart_data_sys_cpu.append({
@@ -244,6 +273,9 @@ def render_html_report(session: SessionData, output_html: str):
             "data": downsample_points(s_times, sys_mem),
             "borderColor": "#3A86FF",
             "borderWidth": 2,
+            "pointRadius": 0,
+            "pointHoverRadius": 6,
+            "pointHitRadius": 8,
             "tension": 0.2
         })
 
@@ -258,7 +290,10 @@ def render_html_report(session: SessionData, output_html: str):
                 "label": f"频率 {label}",
                 "data": downsample_points(s_times, vals),
                 "borderColor": "#00F0FF",
-                "borderWidth": 1.5,
+                "borderWidth": 2,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.1
             })
 
@@ -273,8 +308,10 @@ def render_html_report(session: SessionData, output_html: str):
                 "label": f"温度 {t_label} (°C)",
                 "data": downsample_points(s_times, vals),
                 "borderColor": "#FF9F1C",
-                "borderWidth": 1.8,
-                "borderDash": [3, 3],
+                "borderWidth": 2,
+                "pointRadius": 0,
+                "pointHoverRadius": 6,
+                "pointHitRadius": 8,
                 "tension": 0.2
             })
 
@@ -621,7 +658,17 @@ def render_html_report(session: SessionData, output_html: str):
                     responsive: true,
                     maintainAspectRatio: false,
                     animation: false,
-                    interaction: {{ mode: 'index', intersect: false }},
+                    interaction: {{ mode: 'nearest', axis: 'x', intersect: false }},
+                    elements: {{
+                        point: {{
+                            radius: 0,
+                            hoverRadius: 6,
+                            hitRadius: 10
+                        }},
+                        line: {{
+                            tension: 0.2
+                        }}
+                    }},
                     scales: {{
                         x: {{
                             type: 'linear',
